@@ -29,24 +29,21 @@
 
             <div class="dropdown-menu" aria-labelledby="navbarDropdown">
               <?php
-                  $sql="SELECT distinct ville FROM entreprise";// on écrit la requête sous forme de chaine de caractères
+              include "connectBdd.php";
+
+                  $sql="SELECT distinct categorie FROM film";// on écrit la requête sous forme de chaine de caractères
                   try{
                       $resultat = $cnx->query($sql); // on exécute la requête qui renvoie un curseur
                        // lecture du curseur $résultat  dans un tableau associatif
                       $tabloResultat=$resultat->fetchAll(PDO::FETCH_ASSOC);
                           foreach($tabloResultat as $ligne)   {
-                             echo "<option value='".$ligne["ville"]."'>".$ligne["ville"]."</option>";
+                            echo "<a class='dropdown-item' href='autres.php'>".$ligne["categorie"]."</a>";
                          }
                   }
                   catch(PDOException $e) {   // gestion des erreurs
                           echo"ERREUR PDO  " . $e->getMessage();
                   }
                   ?>
-
-              <a class="dropdown-item" href="drama.php">Drame</a>
-              <a class="dropdown-item" href="fantastique.php">Fantastique</a>
-              <a class="dropdown-item" href="ScienceFiction.php">Science Fiction</a>
-              <a class="dropdown-item" href="autres.php">Autres</a>
             </div>
           </li>
           <li class="nav-item dropdown">
@@ -54,23 +51,31 @@
               Realisateurs
             </a>
             <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-              <a class="dropdown-item" href="fantastique.php">Luc</a>
-              <a class="dropdown-item" href="fantastique.php">Jean</a>
-              <a class="dropdown-item" href="ScienceFiction.php">Gabon</a>
-              <a class="dropdown-item" href="fantastique.php">Kaced</a>
+              <?php
+
+                  $sql="SELECT distinct nom, prenom FROM realisateur";// on écrit la requête sous forme de chaine de caractères
+                  try{
+                      $resultat = $cnx->query($sql); // on exécute la requête qui renvoie un curseur
+                       // lecture du curseur $résultat  dans un tableau associatif
+                      $tabloResultat=$resultat->fetchAll(PDO::FETCH_ASSOC);
+                          foreach($tabloResultat as $ligne)   {
+                            echo "<a class='dropdown-item' href='autres.php'>".$ligne["prenom"].' '.$ligne["nom"]."</a>";
+                         }
+                  }
+                  catch(PDOException $e) {   // gestion des erreurs
+                          echo"ERREUR PDO  " . $e->getMessage();
+                  }
+                  ?>
+
             </div>
           </li>
           <li class="nav-item">
               <a class="nav-link" href="FormInscription.php">Classement</a>
           </li>
-          <li class="nav-item">
-              <a class="nav-link" href="FormInscription.php">Inscription</a>
-          </li>
         </ul>
+        <a class="nav-link" href="FormInscription.php">Inscription</a>
+        <button href="Formconnexion.php" class="btn btn-success" type="submit">connexion</button>
         </div>
-        <form class="collapse navbar-collapse" id="collapsibleNavbar" action="/action_page.php">
-          <input class="form-control mr-sm-2" type="text" placeholder="Search">
-          <button class="btn btn-success" type="submit">Recherche</button>
-        </form>
+
       </nav>
   </header>

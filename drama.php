@@ -7,7 +7,7 @@
 <title> films dramatiques </title>
 
 <?php
-include "entete.html";
+include "entete.php";
 include "connectBdd.php";
 $sql="SELECT * FROM film WHERE categorie = 'Drame'";
 $resultat = $cnx->query($sql); //renvoie un curseur

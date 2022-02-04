@@ -6,7 +6,7 @@
     <div class="col-sm-8">
       <?php
       include "connectBdd.php";
-      $sql="SELECT * FROM film WHERE categorie = 'Fantastique'";
+      $sql="SELECT * FROM film";
       $resultat = $cnx->query($sql); //renvoie un curseur
       $tabloResultat = $resultat->fetchAll(PDO::FETCH_ASSOC);
       foreach ($tabloResultat as $ligne) {
