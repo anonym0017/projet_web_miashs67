@@ -75,7 +75,7 @@
         </ul>
         <div class="form-inline">
           <a class="nav-link" href="FormInscription.php">Inscription</a>
-          <button href="Formconnexion.php" class="btn btn-success" type="submit">connexion</button>
+          <a class="nav-link" href="Formconnexion.php" border = 1px>connexion</a>
         </div>
         </div>
 
