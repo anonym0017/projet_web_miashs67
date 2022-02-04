@@ -73,8 +73,10 @@
               <a class="nav-link" href="FormInscription.php">Classement</a>
           </li>
         </ul>
-        <a class="nav-link" href="FormInscription.php">Inscription</a>
-        <button href="Formconnexion.php" class="btn btn-success" type="submit">connexion</button>
+        <div class="form-inline">
+          <a class="nav-link" href="FormInscription.php">Inscription</a>
+          <button href="Formconnexion.php" class="btn btn-success" type="submit">connexion</button>
+        </div>
         </div>
 
       </nav>
