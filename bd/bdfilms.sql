@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : 127.0.0.1
--- Généré le : lun. 31 jan. 2022 à 11:58
+-- Généré le : ven. 04 fév. 2022 à 16:19
 -- Version du serveur : 10.4.19-MariaDB
 -- Version de PHP : 7.4.20
 
@@ -58,6 +58,17 @@ INSERT INTO `film` (`num`, `titre`, `titrevo`, `resume`, `annee`, `photo`, `numR
 -- --------------------------------------------------------
 
 --
+-- Structure de la table `note`
+--
+
+CREATE TABLE `note` (
+  `Num_utilisateur` int(11) NOT NULL,
+  `Num` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- --------------------------------------------------------
+
+--
 -- Structure de la table `realisateur`
 --
 
@@ -86,15 +97,16 @@ INSERT INTO `realisateur` (`num`, `nom`, `prenom`, `dateNaiss`, `dateDeces`) VAL
 -- --------------------------------------------------------
 
 --
--- Structure de la table `user`
+-- Structure de la table `utilisateur`
 --
 
-CREATE TABLE `user` (
-  `NoUser` int(11) NOT NULL,
-  `NomUser` varchar(30) NOT NULL,
-  `Prenom` varchar(30) NOT NULL,
-  `mail` varchar(50) NOT NULL,
-  `motdepasse` varchar(30) NOT NULL
+CREATE TABLE `utilisateur` (
+  `Num_utilisateur` int(30) NOT NULL,
+  `Nom_utilisateur` varchar(60) NOT NULL,
+  `Prenom_utilisateur` varchar(60) NOT NULL,
+  `mail_utilisateur` varchar(60) NOT NULL,
+  `mot_de_passe` varchar(30) NOT NULL,
+  `statut` tinyint(1) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
@@ -115,10 +127,10 @@ ALTER TABLE `realisateur`
   ADD PRIMARY KEY (`num`);
 
 --
--- Index pour la table `user`
+-- Index pour la table `utilisateur`
 --
-ALTER TABLE `user`
-  ADD PRIMARY KEY (`NoUser`);
+ALTER TABLE `utilisateur`
+  ADD PRIMARY KEY (`Num_utilisateur`);
 
 --
 -- AUTO_INCREMENT pour les tables déchargées
@@ -137,10 +149,10 @@ ALTER TABLE `realisateur`
   MODIFY `num` int(4) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
--- AUTO_INCREMENT pour la table `user`
+-- AUTO_INCREMENT pour la table `utilisateur`
 --
-ALTER TABLE `user`
-  MODIFY `NoUser` int(11) NOT NULL AUTO_INCREMENT;
+ALTER TABLE `utilisateur`
+  MODIFY `Num_utilisateur` int(30) NOT NULL AUTO_INCREMENT;
 
 --
 -- Contraintes pour les tables déchargées
