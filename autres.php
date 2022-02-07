@@ -3,7 +3,7 @@
 <div class="container" style="margin-top:30px">
   <div class="row">
 
-    <div class="col-sm-8">
+    <div class="col-sm-8" margin-left = auto>
       <?php
       include "connectBdd.php";
       $sql="SELECT * FROM film";
