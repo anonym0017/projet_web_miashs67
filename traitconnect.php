@@ -1,23 +1,34 @@
+
 <?php
 session_start();
-// enregistre le nom de l'utilisateur dans la variable de session $user
-if (!isset ($_SESSION["uname"])// si elle n’existe pas déjà!!
-$_SESSION["username"]=$_POST["uname"];
+include "connectBdd.php";
+
+$login = $_POST['login'];
+$mdp = $_POST['pwd'];
+
+$requete="SELECT * FROM utilisateur WHERE mail_utilisateur = :login AND mot_de_passe = :mdp";
+
+
+    // cette requête permet de récupérer l'utilisateur depuis la BD
+try {
+  $resultat = $cnx->prepare($requete);
+  $resultat->execute(array(":login"=>$login, ":mdp"=>$mdp));
+  $tabloResultat=$resultat->fetch(PDO::FETCH_ASSOC);
+
+  if (!empty($tabloResultat)) {
+    // code...
+    echo "Bienvenue ".$tabloResultat["Prenom_utilisateur"];
+  }
+
+  else {
+    // code...
+    echo "t'es qui ?";
+  }
+
+
+} catch (\PDOException $e) { //gestion des erreurs
+  echo"ERREUR PDO  " . $e->getMessage(); // afficahge du message d'erreur
+}
+
+
 ?>
-<!DOCTYPE html>
-<html lang="fr">
-<head>
-<title>Exemple de session</title>
-</head>
-<body>
-<p> identifiant de session :
-<?php echo session_id();
-?>
-Nom de session :
-<?php echo session_name(); ?>
-<p> Bienvenue vous êtes connecté en tant que
-<?php echo $_SESSION["username"]; ?><br>
-<a href="pageSuivante.php"> cliquez ici pour la page
-suivante</a></p>
-</body>
-</html>

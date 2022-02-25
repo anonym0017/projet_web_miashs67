@@ -1,4 +1,8 @@
-<!DOCTYPE html>
+<?php
+// Start the session
+session_start();
+?>
+
 <html lang="en">
 <head>
   <title> AkimbO </title>
@@ -32,7 +36,7 @@
               include "connectBdd.php";
 
                   $sql="SELECT distinct categorie FROM film";// on écrit la requête sous forme de chaine de caractères
-                  
+
                   try{
                       $resultat = $cnx->query($sql); // on exécute la requête qui renvoie un curseur
                        // lecture du curseur $résultat  dans un tableau associatif
