@@ -1,8 +1,3 @@
-<?php
-// Start the session
-session_start();
-?>
-
 <html lang="en">
 <head>
   <title> AkimbO </title>
@@ -75,13 +70,9 @@ session_start();
             </div>
           </li>
           <li class="nav-item">
-              <a class="nav-link" href="FormInscription.php">Classement</a>
+              <a class="nav-link" href="Formconnexion.php" border = 1px>connexion</a>
           </li>
         </ul>
-        <div class="form-inline">
-          <a class="nav-link" href="FormInscription.php">Inscription</a>
-          <a class="nav-link" href="Formconnexion.php" border = 1px>connexion</a>
-        </div>
         </div>
 
       </nav>

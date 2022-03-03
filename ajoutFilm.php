@@ -24,19 +24,10 @@
                     <label for=""> Résumé :</label>
                     <textarea name="resume" class="form-control" rows="10" cols="70%"></textarea>
                 </div>
+
                 <div class="form-group">
                     <label for="">Année de publication :</label>
-                    <select class="form-control" name="anneepub">
-                      <?php
-                      $a=1990;
-                      $Dat = date('Y');
-                      for ($i=1990; $i < $Dat + 1 ; $i++) {
-                        // code...
-                        echo "<option value=$a>$a</option>";
-                        $a+=1;
-                      }
-                      ?>
-                    </select>
+                    <input type="text" name="anneepub" class="form-control">
                 </div>
 
                 <div class="form-group">
@@ -45,7 +36,7 @@
                 </div>
 
                 <div class="form-group">
-                    <label for=""> Catégorie :</label>
+                    <label for=""> Catégorie :</lhttp://localhost/projet_web_miashs67/index.php#demoabel>
                     <input type="text" name="Categorie" class="form-control">
                 </div>
 
