@@ -1,6 +1,6 @@
 
 <?php
-session_start();
+
 include "connectBdd.php";
 
 $login = $_POST['login'];

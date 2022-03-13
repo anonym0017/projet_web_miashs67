@@ -1,4 +1,36 @@
-<?php require 'entete.php';?>
+
+
+<?php require 'entete.php';
+include "connectBdd.php";
+
+if (isset($_POST["valider"])) {
+  try {
+      $sql="insert into utilisateur(Nom_utilisateur, Prenom_utilisateur, mail_utilisateur, mot_de_passe, statut) values(:Nom_utilisateur, :Prenom_utilisateur, :mail_utilisateur, :mot_de_passe, :statut)";
+      //on prepare la requete dans un tableau
+      $resultat = $cnx->prepare($sql);
+      //on affecte les champs du formulaire à des variables
+      $uname = $_POST["Nom_utilisateur"];
+      $ufname = $_POST["Prenom_utilisateur"];
+      $umail = $_POST["mail_utilisateur"];
+      $upw = $_POST["mot_de_passe"];
+      $stat = 1;
+
+      $nbLignes= $resultat->execute(array(":Nom_utilisateur" => $uname,":Prenom_utilisateur" => $ufname, ":mail_utilisateur" => $umail, ":mot_de_passe" => $upw, ":statut" => $stat));
+      echo "<div class='alert alert-success alert-dismissible'>
+            <button type='button' class='close' data-dismiss='alert'>&times;</button>
+            <strong>Success!</strong> utilisateur ajouté.
+           </div>";
+      //require "FormInscription.php";
+      header ("FormInscription.php");
+      }
+
+      catch(PDOException $e) {   // gestion des erreurs
+          echo"ERREUR dans l'ajout  " . $e->getMessage();
+      }
+
+}
+?>
+
 
 
 <section>
@@ -8,7 +40,7 @@
 
             <div class="col-sm-8">
 
-                <form action="traitInscription.php" method="post">
+                <form action="Forminscription.php" method="post">
                 <div class="form-group">
                     <label for="NameDemo">Nom :</label>
                     <input type="text" name="Nom_utilisateur" class="form-control" id="NameDemo" aria-describedby="nameHelp" placeholder="Entrez votre nom">
@@ -30,11 +62,8 @@
                     <small id="passHelp" class="form-text text-muted">4 caractères minimum</small>
                 </div>
 
-                <div class="form-check">
-                    <input type="checkbox" name="agree" class="form-check-input" id="CheckDemo">
-                    <label class="form-check-label" for="CheckDemo">Pour poursuivre, acceptez les conditions générales d'utilisations.</label>
-                </div>
-                <button type="submit" class="btn btn-success">Créer votre compte</button>
+
+                <button type="submit" class="btn btn-success" name="valider">Créer votre compte</button>
                 </form>
             </div>
           </div>

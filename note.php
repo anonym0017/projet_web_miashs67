@@ -1,90 +1,31 @@
+<?php
+if (!$_SESSION['Nom_utilisateur']) {
+  header("Location:Formconnexion.php");
+}
+
+$num = $_GET["num"]
+?>
 <!DOCTYPE html>
-<html>
-    <head>
-        <title>note</title>
-        <link rel="stylesheet" href="notation.css" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
-    </head>
-    <body>
-
-        <!-- Ratebar -->
-        <div class="rate-bar">
-            <i id="first" onmousemove="rate('first-star')" class='fa fa-star'></i>
-            <i id="second" onmousemove="rate('second-star')" class='fa fa-star'></i>
-            <i id="third" onmousemove="rate('third-star')" class='fa fa-star'></i>
-            <i id="four" onmousemove="rate('four-star')" class='fa fa-star'></i>
-            <i id="fifth" onmousemove="rate('fifth-star')" class='fa fa-star'></i>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rating</title>
+    <link rel="stylesheet" href="https://maxst.icons8.com/vue-static/landings/line-awesome/line-awesome/1.3.0/css/line-awesome.min.css">
+</head>
+<body>
+    <!-- http://127.0.0.1:5500/index.html?titre=C%27est+bien&comment=Super+avis&note=4 -->
+    <br><br>
+    <form action="apercu.php?num=<?php echo $num; ?>" method="post">
+        <div class="stars">
+            <i class="lar la-star" data-value="1"></i><i class="lar la-star" data-value="2"></i><i class="lar la-star" data-value="3"></i><i class="lar la-star" data-value="4"></i><i class="lar la-star" data-value="5"></i>
         </div>
+        <input type="hidden" name="note" id="note" value="0">
+        <br>
+        <button class="btn btn-success" type="submit" name="valider">Noter</button>
+    </form>
 
-        <div onclick="rate('submit')" class="btn">
-            <i class='fa fa-check'></i>
-        </div>
-
-        <!-- Script -->
-        <script>
-
-            var count_rate = 0
-
-            function rate(starName) {
-
-
-                var first = document.getElementById("first")
-                var second = document.getElementById("second")
-                var third = document.getElementById("third")
-                var four = document.getElementById("four")
-                var fifth = document.getElementById("fifth")
-
-                if (starName == "first-star"){
-                    first.style.color = "#56ab2f";
-                    second.style.color = "";
-                    third.style.color = "";
-                    four.style.color = "";
-                    fifth.style.color = ""
-                    window.count_rate = 1
-                }
-
-                else if (starName == "second-star"){
-                    first.style.color = "#56ab2f";
-                    second.style.color = "#56ab2f";
-                    third.style.color = "";
-                    four.style.color = "";
-                    fifth.style.color = "";
-                    window.count_rate = 2
-                }
-
-                else if (starName == "third-star"){
-                    first.style.color = "#56ab2f";
-                    second.style.color = "#56ab2f";
-                    third.style.color = "#56ab2f";
-                    four.style.color = "";
-                    fifth.style.color = "";
-                    window.count_rate = 3
-                }
-
-                else if (starName == "four-star"){
-                    first.style.color = "#56ab2f";
-                    second.style.color = "#56ab2f";
-                    third.style.color = "#56ab2f";
-                    four.style.color = "#56ab2f";
-                    fifth.style.color = "";
-                    window.count_rate = 4
-                }
-
-                else if (starName == "fifth-star"){
-                    first.style.color = "#56ab2f";
-                    second.style.color = "#56ab2f";
-                    third.style.color = "#56ab2f";
-                    four.style.color = "#56ab2f";
-                    fifth.style.color = "#56ab2f";
-                    window.count_rate = 5
-                }
-
-                if (starName == "submit"){
-                    alert("Thank you for gived me" +" "+ count_rate +" "+ "stars")
-                }
-
-            }
-
-        </script>
-
-    </body>
+    <script src="jsnote.js"></script>
+</body>
 </html>

@@ -19,7 +19,8 @@ try {
           <button type='button' class='close' data-dismiss='alert'>&times;</button>
           <strong>Success!</strong> utilisateur ajouté.
          </div>";
-    require "FormInscription.php";
+    //require "FormInscription.php";
+    header ("FormInscription.php");
     }
 
     catch(PDOException $e) {   // gestion des erreurs
