@@ -1,30 +1,21 @@
-
-
 <?php
-
 include 'entete.php';
 include "connectBdd.php";
-
 if (isset($_POST["valider"])) {
   // code...
   $requete="SELECT * FROM utilisateur WHERE mail_utilisateur = :login AND mot_de_passe = :mdp";
-
-
       // cette requête permet de récupérer l'utilisateur depuis la BD
   try {
     $resultat = $cnx->prepare($requete);
     $resultat->execute(array(":login"=>$_POST['login'], ":mdp"=>$_POST['pwd']));
     $tabloResultat=$resultat->fetch(PDO::FETCH_ASSOC);
-
     if (!empty($tabloResultat)) {
       // code...
       $_SESSION['Nom_utilisateur'] = $tabloResultat["Nom_utilisateur"];
       $_SESSION['Num_utilisateur'] = $tabloResultat["Num_utilisateur"];
       $_SESSION['statut'] = $tabloResultat["statut"];
       header('Location: index.php');
-
     }
-
     else {
       // code...
       echo "<div class='alert alert-danger alert-dismissible'>
@@ -32,16 +23,11 @@ if (isset($_POST["valider"])) {
               <strong>Attention!</strong> Identifiant et/ou Mot de passe incorrect(s)!!!
             </div>";
     }
-
-
   } catch (\PDOException $e) { //gestion des erreurs
     echo"ERREUR PDO  " . $e->getMessage(); // afficahge du message d'erreur
   }
 }
-
 ?>
-
-
 <div  class="conex" >
 
 <form action="" class="container was-validated" method="post">

@@ -1,6 +1,11 @@
 <?php require "entete.php";
-if (!$_SESSION['Nom_utilisateur']) {
-  header("Location:Formconnexion.php");
+
+if (!isset($_SESSION['Nom_utilisateur'])) {
+  header("Location: Formconnexion.php");
+  if ($_SESSION['statut'] != 0) {
+    // code...
+    header("Location: index.php");
+  }
 }
 
 if (isset($_POST["valider"])) {
@@ -10,6 +15,7 @@ if (isset($_POST["valider"])) {
   $rfname = $_POST["prenom_real"];
   $rnaiss = $_POST["date_naiss"];
   $rdeces = $_POST["date_dec"]; // rajouter un if on met pas de date
+  $num;
 
 
   $requete = "SELECT * FROM realisateur where nom = :nom_real and prenom = :prenom_real ";
@@ -27,7 +33,9 @@ if (isset($_POST["valider"])) {
              //on affecte les champs du formulaire à des variables
              $nbLignes= $resultat->execute(array(":nom" => $rname, ":prenom" =>$rfname, ":dateNaiss" =>$rnaiss, ":dateDeces" =>$rdeces));
 
-             header ("Location: ajoutFilm.php");
+             // on relance la recherche dans le tableau pour recuperer le num realisateur
+            $nm= $cnx->lastInsertId();
+            header("Location: ajoutFilm.php?num=".$nm);
            }
            else {
              // code...
@@ -47,6 +55,24 @@ if (isset($_POST["valider"])) {
 
 ?>
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 <section>
         <div class="container" style="margin-top:40px">
           <h1> Ajouter un réalisateur </h1>
@@ -59,11 +85,11 @@ if (isset($_POST["valider"])) {
                 <form action="" method="post">
                 <div class="form-group">
                     <label for="NameDemo">Nom :</label>
-                    <input type="text" name="nom_real" class="form-control" id="NameDemo" aria-describedby="nameHelp" placeholder="Entrez votre nom">
+                    <input type="text" name="nom_real" class="form-control" id="NameDemo" aria-describedby="nameHelp" placeholder="Entrez votre nom" required>
                 </div>
                 <div class="form-group">
                     <label for="NameDemo">Prénom :</label>
-                    <input type="text" name="prenom_real" class="form-control" id="NameDemo" aria-describedby="nameHelp" placeholder="Entrez votre prénom">
+                    <input type="text" name="prenom_real" class="form-control" id="NameDemo" aria-describedby="nameHelp" placeholder="Entrez votre prénom" required>
                 </div>
                 <div class="form-group">
                     <label for="NameDemo">Date de Naissance :</label>

@@ -1,7 +1,13 @@
 <?php require "entete.php";
-if (!$_SESSION['Nom_utilisateur']) {
+
+if (!isset($_SESSION['Nom_utilisateur'])) {
   header("Location:Formconnexion.php");
+  if ($_SESSION['statut'] != 0) {
+    // code...
+    header("Location:index.php");
+  }
 }
+
 if (isset($_POST["valider"])) {
   include "connectBdd.php";
 
@@ -15,7 +21,7 @@ if (isset($_POST["valider"])) {
               $fresume = htmlspecialchars($_POST["resume"]);
               $fannee = $_POST["annee"];
               $fimage = "images/".$_POST["photo"];//["photo"];
-              $nReal = $_GET["num"]; //rajouter un code sql ici r
+              $nReal = $_GET["num"]; //r
               $fcateg = $_POST["categorie"];
 
               $nbLignes= $resultat->execute(array(":titre" => $ftitre,":titrevo" => $ftitrevo, ":resume" => $fresume, ":annee" => $fannee, ":photo" => $fimage, ":numRealisateur" => $nReal, ":categorie" => $fcateg));

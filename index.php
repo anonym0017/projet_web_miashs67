@@ -1,6 +1,25 @@
 <?php
 require 'entete.php';
 require 'connectBdd.php';
+
+if (isset($_SESSION['Nom_utilisateur'])) {
+
+  //succes d'ajout de film
+  if (isset($_GET["bang"])) {
+    echo "<div class='alert alert-success alert-dismissible'>
+            <button type='button' class='close' data-dismiss='alert'>&times;</button>
+             Film ajouté !</div>";
+  }
+  //supp de film
+  if (isset($_GET["bang"])) {
+    echo "<div class='alert alert-success alert-dismissible'>
+            <button type='button' class='close' data-dismiss='alert'>&times;</button>
+             Film supprimé !</div>";
+  }
+
+
+}
+
 ?>
 
 <div id="demo" class="carousel slide" data-ride="carousel" height = "70px">
@@ -29,14 +48,13 @@ require 'connectBdd.php';
       foreach($tabloResultat as $ligne)   {
 
 echo "<div class='carousel-item ".$act."' width=100%>
-      <img src=".$ligne["photo"]." width=100% height = 550px>
+      <img src=".$ligne["photo"]." width=100% height = 80%>
       <div class='carousel-caption'>
         <h3><a class='btn btn-info' href='apercu.php?num=".$ligne["num"]."'>".$ligne["titrevo"]."</a></h3>
         <p>".$ligne["categorie"]." Incroyable!</p>
       </div>
     </div>";
     $act ="";
-
      }
      ?>
 
@@ -61,24 +79,35 @@ catch(PDOException $e) {   // gestion des erreurs
 
 <section>
 <div class="container" style="margin-top:30px">
+  <div class='container' style='position:center;'>
 
 <?php
-  $sql="SELECT * FROM film WHERE categorie = 'Science fiction' ORDER BY RAND() LIMIT 3";// on écrit la requête sous forme de chaine de caractères
+// afficahge de films selon trois catégories aléatoires de la bdd
+  $requete = "SELECT distinct categorie FROM film ORDER BY RAND() limit 3";
+try {
+  $result = $cnx->query($requete); // on exécute la requête qui renvoie un curseur
+  // lecture du curseur $résultat  dans un tableau associatif
+  $tabloResult=$result->fetchAll(PDO::FETCH_ASSOC);
+
+  foreach ($tabloResult as $lign) { // se realise 3 fois en fonction des 3 catégories du tableau
+
+  $sql="SELECT * FROM film WHERE categorie = :categorie ORDER BY RAND() LIMIT 3";// on écrit la requête sous forme de chaine de caractères
   try{
-      $resultat = $cnx->query($sql); // on exécute la requête qui renvoie un curseur
-       // lecture du curseur $résultat  dans un tableau associatif
-      $tabloResultat=$resultat->fetchAll(PDO::FETCH_ASSOC);
+    $resultat = $cnx->prepare($sql);
+    $resultat->execute(array(':categorie' => $lign["categorie"]));
+    $tabloResultat=$resultat->fetchAll(PDO::FETCH_ASSOC);
       //premiere ligne de film, il faut mettre par categorie
       ?>
-        <div class="container p-3 my-3 border">
+        <div class="container p-3 my-3" style="border-top: 7px solid skyblue;">
+          <fieldset>
+            <legend><strong><?php echo $lign["categorie"];  ?></strong></legend>
           <div class="row">
       <?php
         foreach($tabloResultat as $ligne)   {
-
           echo "
             <div class='col-sm-4'>
               <div class='card' style='width:100%'>
-                  <h3>".$ligne["titre"]."</h3>
+                  <h5>".$ligne["titre"]."</h5>
                   <img class='card-img-top' src=".$ligne["photo"]." alt='Card image' style='width:100%; height:200px'>
                   <div class='card-body'>
                     <h6>".$ligne["titrevo"]."</h6>
@@ -86,86 +115,22 @@ catch(PDOException $e) {   // gestion des erreurs
                     <a href='apercu.php?num=".$ligne["num"]."' class='btn btn-primary stretched-link'>Regarder le film</a>
                   </div>
                 </div>
-          </div>";
+              </div>";
        }
        ?>
         </div>
+      </fieldset>
       </div>
-       <?php
-  }
-  catch(PDOException $e) {   // gestion des erreurs
-          echo"ERREUR PDO  " . $e->getMessage();
-  }
-?>
-
-<?php //par categorie aussi
-  $sql="SELECT * FROM film WHERE categorie = 'Animation' ORDER BY RAND() LIMIT 3";// on écrit la requête sous forme de chaine de caractères
-  try{
-      $resultat = $cnx->query($sql); // on exécute la requête qui renvoie un curseur
-       // lecture du curseur $résultat  dans un tableau associatif
-      $tabloResultat=$resultat->fetchAll(PDO::FETCH_ASSOC);
-      //premiere ligne de film, il faut mettre par categorie
-      ?>
-        <div class="container p-3 my-3 border">
-          <div class="row">
-      <?php
-        foreach($tabloResultat as $ligne)   {
-          echo "
-            <div class='col-sm-4'>
-              <div class='card' style='width:100%'>
-                  <h3>".$ligne["titre"]."</h3>
-                  <img class='card-img-top' src=".$ligne["photo"]." alt='Card image' style='width:100%; height:200px'>
-                  <div class='card-body'>
-                    <h6>".$ligne["titrevo"]."</h6>
-                    <p>De ".$ligne["annee"]."</p>
-                    <a href='apercu.php?num=".$ligne["num"]."' class='btn btn-primary stretched-link'>Regarder le film</a>
-                  </div>
-                </div>
-          </div>";
-       }
-       ?>
-        </div>
-      </div>
-       <?php
-  }
-  catch(PDOException $e) {   // gestion des erreurs
-          echo"ERREUR PDO  " . $e->getMessage();
-  }
-?>
-
-<?php // par Realisateurs
-  $sql="SELECT * FROM film WHERE categorie = 'Fantastique' ORDER BY RAND() LIMIT 3";// on écrit la requête sous forme de chaine de caractères
-  try{
-      $resultat = $cnx->query($sql); // on exécute la requête qui renvoie un curseur
-       // lecture du curseur $résultat  dans un tableau associatif
-      $tabloResultat=$resultat->fetchAll(PDO::FETCH_ASSOC);
-      //premiere ligne de film, il faut mettre par categorie
-      ?>
-        <div class="container p-3 my-3 border">
-          <div class="row">
-      <?php
-        foreach($tabloResultat as $ligne)   {
-          echo "
-            <div class='col-sm-4'>
-              <div class='card' style='width:100%'>
-                  <h3>".$ligne["titre"]."</h3>
-                  <img class='card-img-top' src=".$ligne["photo"]." alt='Card image' style='width:100%; height:200px'>
-                  <div class='card-body'>
-                    <h6>".$ligne["titrevo"]."</h6>
-                    <p>De ".$ligne["annee"]."</p>
-                    <a href='apercu.php?num=".$ligne["num"]."' class='btn btn-primary stretched-link'>Regarder le film</a>
-                  </div>
-                </div>
-          </div>";
-       }
-       ?>
-        </div>
-      </div>
-       <?php
-  }
-  catch(PDOException $e) {   // gestion des erreurs
-          echo"ERREUR PDO  " . $e->getMessage();
-  }
+         <?php
+    }
+    catch(PDOException $e) {   // gestion des erreurs
+            echo"ERREUR PDO  " . $e->getMessage();
+    }
+  } // fin du gros foreach
+}
+catch(PDOException $e) {   // gestion des erreurs
+        echo"ERREUR PDO  " . $e->getMessage();
+}
 ?>
 
   <div class="container-fluid p-5 bg-primary text-white text-center rounded">
