@@ -102,6 +102,7 @@
                 echo "<li class='nav-item'><a class='nav-link text-light' href='selectRealisateur.php' border = 1px>Ajouter</a></li>";
               }
                 echo "<li class='nav-item'><a class='nav-link' href='deco.php' border = 1px>déconnexion</a></li>";
+                echo "<li class='nav-item'><a class='nav-link' href='' border = 1px>Salut ".$_SESSION['Nom_utilisateur'].",</a></li>";
             }
             else {
               // code...

@@ -9,6 +9,28 @@ $evaluation = "SELECT * FROM note WHERE id_film = :id_film";
 $result = $cnx->prepare($evaluation);
 $result->execute(array(":id_film"=>$idfilm));
 $tabloResulta=$result->fetchAll(PDO::FETCH_ASSOC);
+//
+////calcul de la note moyenne
+$notation=0; $moyenne=0;
+foreach ($tabloResulta as $key) {
+  $notation= $notation + $key["note"];
+}
+if (count($tabloResulta)!=0) {
+  $moyenne = $notation/count($tabloResulta);
+}
+
+try {
+$average="UPDATE film SET noteMoyenne = :noteMoyenne WHERE num = :num";
+$resulti = $cnx->prepare($average);
+$nbLigne= $resulti->execute(array(":noteMoyenne" => $moyenne,":num" => $idfilm));
+}
+catch(PDOException $e) { // gestion des erreurs
+echo"ERREUR dans la modification " . $e->getMessage();
+}
+
+
+/// fin d'évaluation
+
 //traitement de la note
 if (isset($_POST["valider"])) {
   // code...
@@ -84,22 +106,7 @@ try {
 <div class='container' style='position:center;'>
 <?php
   foreach ($tabloResultat as $ligne) {
-    //
-    ////calcul de la note moyenne
-    $notation=0; $moyenne=0;
-    foreach ($tabloResulta as $key) {
-    $notation= $notation + $key["note"];
-    }
 
-    if (count($tabloResulta)!=0) {
-      $moyenne = $notation/count($tabloResulta);
-    }
-
-    $average="UPDATE film SET noteMoyenne = :noteMoyenne WHERE num = :num";
-    $resulti = $cnx->prepare($average);
-    $nbLigne= $resulti->execute(array(":noteMoyenne" => $moyenne,":num" => $idfilm));
-
-    /// fin d'évaluation
     echo "
     <br><br>
 
@@ -109,9 +116,9 @@ try {
         <figcaption class='figure-caption'>".$ligne["titrevo"]."</figcaption>
       </div><br>
       <p>note : ".$moyenne." / 5</p>
-      <p><a class='dropdown-item' href='tri.php?rea=".$ligne["num"]."'>Par : ".$ligne["prenom"]." ".$ligne["nom"]."<a></p>
-      <p>Annee de publication : ".$ligne["annee"]."</p>
-      <p>Categorie : ".$ligne["categorie"]."</p>
+      <p><a class='dropdown-item' href='tri.php?rea=".$ligne["num"]."'>Par : ".$ligne["prenom"]." ".$ligne["nom"]."</a></p>
+      <p><a class='dropdown-item' href='tri.php?annee=".$ligne["annee"]."'>Annee de publication : ".$ligne["annee"]."</a></p>
+      <p><a class='dropdown-item' href='tri.php?cate=".$ligne["categorie"]."'>Categorie : ".$ligne["categorie"]."</a></p>
       <p>Resume : <div>".$ligne["resume"]."</div></p>";
 
   }
@@ -173,16 +180,16 @@ if (!empty($tabloResul)) {
   <?php
   foreach ($tabloResul as $key) {
     //prenom utilisateur
-    $user = "SELECT Prenom_utilisateur FROM utilisateur WHERE Num_utilisateur = :Num_utilisateur";
+    $user = "SELECT Nom_utilisateur FROM utilisateur WHERE Num_utilisateur = :Num_utilisateur";
     $resu=$cnx->prepare($user);
     $resu->execute(array(":Num_utilisateur" => $key["id_utilisateur"]));
     $tabloResu = $resu->fetchAll(PDO::FETCH_ASSOC);
     $prenom = "";
     foreach ($tabloResu as $ligne) {
       // code...
-      $prenom = $ligne["Prenom_utilisateur"];
+      $nom = $ligne["Nom_utilisateur"];
     }
-    echo "<tr><td>".$prenom."</td><td>".$key["note"]." / 5</td><td>".$key["commentaire"]."</td></tr>";
+    echo "<tr><td>".$nom."</td><td>".$key["note"]." / 5</td><td>".$key["commentaire"]."</td></tr>";
   }
 
 
@@ -192,10 +199,7 @@ if (!empty($tabloResul)) {
   </div>
 <?php
 }
-//remise aj
-$average="UPDATE film F SET noteMoyenne = :noteMoyenne WHERE F.num = :num";
-$resulti = $cnx->prepare($average);
-$nbLigne= $resulti->execute(array(":noteMoyenne" => $moyenne,":num" => $_GET["num"]));
+
 ?>
 <br><br>
 

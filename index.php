@@ -131,29 +131,34 @@ try {
 catch(PDOException $e) {   // gestion des erreurs
         echo"ERREUR PDO  " . $e->getMessage();
 }
+
+$sql1= "SELECT * FROM film ";
 ?>
 
   <div class="container-fluid p-5 bg-primary text-white text-center rounded">
-    <h1>My First Bootstrap Page</h1>
-    <p>Resize this responsive page to see the effect!</p>
+    <h1>L'un des meilleurs films</h1>
+    <p>Vivez une expérience unique avec AkimbO</p>
   </div>
 
   <?php // ici on fera par ordre (meilleure note)
-    $sql="SELECT * FROM film WHERE categorie = 'Animation' ORDER BY RAND() LIMIT 3";// on écrit la requête sous forme de chaine de caractères
+    $sql="SELECT * FROM film ORDER BY noteMoyenne DESC LIMIT 3";// on écrit la requête sous forme de chaine de caractères
     try{
         $resultat = $cnx->query($sql); // on exécute la requête qui renvoie un curseur
          // lecture du curseur $résultat  dans un tableau associatif
         $tabloResultat=$resultat->fetchAll(PDO::FETCH_ASSOC);
         //premiere ligne de film, il faut mettre par categorie
         ?>
-          <div class="container p-3 my-3 border">
+          <div class="container p-3 my-3" style="border-top: 7px solid skyblue;">
+            <fieldset>
+              <legend><strong>PODIUM</strong></legend>
             <div class="row">
         <?php
+        $i=1;
           foreach($tabloResultat as $ligne)   {
             echo "
               <div class='col-sm-4'>
                 <div class='card' style='width:100%'>
-                    <h3>".$ligne["titre"]."</h3>
+                    <h3>N° ".$i." ".$ligne["titre"]."</h3>
                     <img class='card-img-top' src=".$ligne["photo"]." alt='Card image' style='width:100%; height:200px'>
                     <div class='card-body'>
                       <h6>".$ligne["titrevo"]."</h6>
@@ -162,9 +167,11 @@ catch(PDOException $e) {   // gestion des erreurs
                     </div>
                   </div>
             </div>";
+            $i++;
          }
          ?>
           </div>
+          </fieldset>
         </div>
          <?php
     }

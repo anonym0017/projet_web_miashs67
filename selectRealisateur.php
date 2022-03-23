@@ -1,6 +1,6 @@
 <?php
 include "entete.php";
-if (!$_SESSION['Nom_utilisateur']) {
+if (!isset($_SESSION['Nom_utilisateur'])) {
   header("Location:Formconnexion.php");
 }
 include "connectBdd.php"; //appel de la bdd

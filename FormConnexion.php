@@ -12,6 +12,7 @@ if (isset($_POST["valider"])) {
     if (!empty($tabloResultat)) {
       // code...
       $_SESSION['Nom_utilisateur'] = $tabloResultat["Nom_utilisateur"];
+      $_SESSION['Prenom_utilisateur'] = $tabloResultat["Prenom_utilisateur"];
       $_SESSION['Num_utilisateur'] = $tabloResultat["Num_utilisateur"];
       $_SESSION['statut'] = $tabloResultat["statut"];
       header('Location: index.php');

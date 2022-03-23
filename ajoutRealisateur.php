@@ -15,6 +15,9 @@ if (isset($_POST["valider"])) {
   $rfname = $_POST["prenom_real"];
   $rnaiss = $_POST["date_naiss"];
   $rdeces = $_POST["date_dec"]; // rajouter un if on met pas de date
+  if (!isset($_POST["date_dec"])) {
+    $redeces = NULL;
+  }
   $num;
 
 

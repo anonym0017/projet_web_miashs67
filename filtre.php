@@ -4,7 +4,7 @@ include "entete.php";
 $annee = "SELECT distinct annee FROM film ORDER by annee DESC";
 
 if (isset($_GET["filtre1"])) {
-  // code...
+  // par année
   try{
       $resultat = $cnx->query($annee); // on exécute la requête qui renvoie un curseur
        // lecture du curseur $résultat  dans un tableau associatif
@@ -58,7 +58,7 @@ if (isset($_GET["filtre1"])) {
 }
 //par Classement
 elseif (isset($_GET["filtre2"])) {
-  // code...
+  //
   ?>
     <div class="container p-3 my-3" style="border-top: 5px solid skyblue;">
       <fieldset>
@@ -99,10 +99,51 @@ elseif (isset($_GET["filtre2"])) {
   </div>
   <?php
 }
+
+
 //par pref
-elseif (isset($_GET["filtre3"])) {
+elseif (isset($_GET["filtre3"]) and isset($_SESSION['Nom_utilisateur']) ) {
+  ?>
+    <div class="container p-3 my-3" style="border-top: 5px solid skyblue;">
+      <fieldset>
+        <legend><strong> Mes préférences </strong></legend>
+        <br>
+      <div class="row">
+  <?php
   // code...
-  echo "bonsoir";
+  $sql="SELECT * FROM note N, film F WHERE id_utilisateur = :id_utilisateur AND N.id_film = F.num ORDER BY note DESC";// on écrit la requête sous forme de chaine de caractères
+  try{
+    $resulta = $cnx->prepare($sql);
+    $resulta->execute(array(':id_utilisateur' => $_SESSION['Num_utilisateur']));
+    $tabloResulta=$resulta->fetchAll(PDO::FETCH_ASSOC);
+    $classe = 0;
+    foreach ($tabloResulta as $ligne) {
+      // code...
+      $classe += 1;
+      echo "
+        <div class='col-sm-4'>
+          <div class='card' style='width:100%'>
+              <h3>N° ".$classe."  ".$ligne["titre"]."</h3>
+              <img class='card-img-top' src=".$ligne["photo"]." alt='Card image' style='width:100%; height:200px'>
+              <div class='card-body'>
+                <h6>".$ligne["titrevo"]."</h6>
+                <p>Note : ".$ligne["note"]." / 5</p>
+                <a href='apercu.php?num=".$ligne["num"]."' class='btn btn-primary stretched-link'>Regarder le film</a>
+              </div>
+            </div>
+      </div>";
+    }
+
+  }
+  catch(PDOException $e) {   // gestion des erreurs
+          echo"ERREUR PDO  " . $e->getMessage();
+  }
+  ?>
+</div>
+    </fieldset>
+  </div>
+  <?php
+
 }
 
 else {
