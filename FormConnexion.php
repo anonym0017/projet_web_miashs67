@@ -1,7 +1,9 @@
 <?php
-include 'entete.php';
-include "connectBdd.php";
+require "entete.php";
+
 if (isset($_POST["valider"])) {
+  include "connectBdd.php";
+  
   // code...
   $requete="SELECT * FROM utilisateur WHERE mail_utilisateur = :login AND mot_de_passe = :mdp";
       // cette requête permet de récupérer l'utilisateur depuis la BD
@@ -12,14 +14,13 @@ if (isset($_POST["valider"])) {
     if (!empty($tabloResultat)) {
       // code...
       $_SESSION['Nom_utilisateur'] = $tabloResultat["Nom_utilisateur"];
-      $_SESSION['Prenom_utilisateur'] = $tabloResultat["Prenom_utilisateur"];
       $_SESSION['Num_utilisateur'] = $tabloResultat["Num_utilisateur"];
       $_SESSION['statut'] = $tabloResultat["statut"];
       header('Location: index.php');
     }
     else {
       // code...
-      echo "<div class='alert alert-danger alert-dismissible'>
+      echo "<div class='alert alert-danger alert-dismissible' style='margin-bottom:0'>
               <button type='button' class='close' data-dismiss='alert'>&times;</button>
               <strong>Attention!</strong> Identifiant et/ou Mot de passe incorrect(s)!!!
             </div>";
@@ -28,8 +29,12 @@ if (isset($_POST["valider"])) {
     echo"ERREUR PDO  " . $e->getMessage(); // afficahge du message d'erreur
   }
 }
+
+//formulaire de connexion juste après
 ?>
-<div  class="conex" >
+
+
+<div  class="conex" style='margin-top:5%'>
 
 <form action="" class="container was-validated" method="post">
   <div>

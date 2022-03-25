@@ -6,18 +6,18 @@ if (isset($_SESSION['Nom_utilisateur'])) {
 
   //succes d'ajout de film
   if (isset($_GET["bang"])) {
-    echo "<div class='alert alert-success alert-dismissible'>
-            <button type='button' class='close' data-dismiss='alert'>&times;</button>
-             Film ajouté !</div>";
-  }
+    if ($_GET["bang"]==1) {
+      echo "<div class='alert alert-success alert-dismissible' style='margin-bottom:0'>
+              <button type='button' class='close' data-dismiss='alert'>&times;</button>
+               Le film a été ajouté avec succès !</div>";
+             }
   //supp de film
-  if (isset($_GET["bang"])) {
-    echo "<div class='alert alert-success alert-dismissible'>
+  else {
+    echo "<div class='alert alert-danger alert-dismissible' style='margin-bottom:0'>
             <button type='button' class='close' data-dismiss='alert'>&times;</button>
-             Film supprimé !</div>";
+              Le film a été supprimé !</div>";
+        }
   }
-
-
 }
 
 ?>
@@ -132,15 +132,18 @@ catch(PDOException $e) {   // gestion des erreurs
         echo"ERREUR PDO  " . $e->getMessage();
 }
 
-$sql1= "SELECT * FROM film ";
-?>
-
-  <div class="container-fluid p-5 bg-primary text-white text-center rounded">
-    <h1>L'un des meilleurs films</h1>
-    <p>Vivez une expérience unique avec AkimbO</p>
-  </div>
-
-  <?php // ici on fera par ordre (meilleure note)
+$sql1= "SELECT * FROM film WHERE noteMoyenne > 4.5 ORDER BY RAND() limit 1";
+$res = $cnx->query($sql1);
+$tabloRes = $res->fetchAll(PDO::FETCH_ASSOC);
+foreach ($tabloRes as $key) {
+  // code...
+  ?>
+    <div class="container-fluid p-5 bg-primary text-white text-center rounded" style="background-image: url(<?php echo $key['photo']; ?>); background-position: center; background-repeat: no-repeat; background-size: 125rem 115rem;">
+      <h1 style="text-shadow: 2px 2px skyblue;">La meilleure plateforme de streaming</h1>
+      <p style=" text-shadow: 2px 2px black;">Vivez une expérience unique avec AkimbO</p>
+    </div>
+    <?php // ici on fera par ordre (meilleure note)
+}
     $sql="SELECT * FROM film ORDER BY noteMoyenne DESC LIMIT 3";// on écrit la requête sous forme de chaine de caractères
     try{
         $resultat = $cnx->query($sql); // on exécute la requête qui renvoie un curseur

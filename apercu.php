@@ -171,7 +171,7 @@ if (!empty($tabloResul)) {
   <table class="table">
   <thead class="table-dark">
     <tr>
-      <th>Prénom</th>
+      <th>Nom</th>
       <th>Note</th>
       <th>Commentaire</th>
     </tr>

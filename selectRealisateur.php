@@ -1,16 +1,19 @@
 <?php
-include "entete.php";
-if (!isset($_SESSION['Nom_utilisateur'])) {
-  header("Location:Formconnexion.php");
-}
-include "connectBdd.php"; //appel de la bdd
-
 //action apres validation
 if (isset($_POST["valider"])) {
   // code...
   $rea = $_POST["listerea"];
   header("Location:ajoutFilm.php?num=".$rea);
+}
 
+include "entete.php";
+include "connectBdd.php"; //appel de la bdd
+if (!isset($_SESSION['Nom_utilisateur'])) {
+  header("Location:Formconnexion.php");
+  if ($_SESSION['statut'] != 0) {
+    // code...
+    header("Location:index.php");
+  }
 }
 
 ?>
